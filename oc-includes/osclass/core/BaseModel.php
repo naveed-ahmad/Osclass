@@ -176,6 +176,14 @@
                             } else {
                                 $this->do400();
                             }
+                        } else if($subdomain_type=='username') {
+                            $user = User::newInstance()->findByUsername($subdomain);
+                            if(isset($user['pk_i_id'])) {
+                                Params::setParam('subdomain', 1);
+                                Params::setParam('sUser', $user['pk_i_id']);
+                            } else {
+                                $this->do400();
+                            }
                         } else {
                             $this->do400();
                         }

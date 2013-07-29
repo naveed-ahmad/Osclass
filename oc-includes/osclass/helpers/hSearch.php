@@ -374,6 +374,21 @@
                     }
 
                 }
+            } else if(osc_subdomain_type()=='username' && isset($params['sUser'])) {
+                if(is_array($params['sUser'])) {
+                    $params['sUser'] = implode(",", $params['sUser']);
+                }
+                if($params['sUser']!='' && strpos($params['sUser'], ",")===false) {
+                    if(is_numeric($params['sUser'])) {
+                        $user = User::newInstance()->findByPrimaryKey($params['sUser']);
+                    } else {
+                        $user = User::newInstance()->findByUsername($params['sUser']);
+                    }
+                    if(isset($user['s_username'])) {
+                        return $url.$user['s_username'].".".osc_subdomain_host().REL_WEB_URL;
+                    }
+
+                }
             }
         }
         if(osc_rewrite_enabled()) {
